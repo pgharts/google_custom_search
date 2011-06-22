@@ -1,13 +1,51 @@
 GoogleCustomSearch
 ==================
 
-Introduction goes here.
+Rewritten version of the GoogleCustomSearch plugin, replacing the now deprecated AJAX API with
+ the Google Site Search XML API.
+
+ How to Use
+==========
+
+After adding the Google Custom Search plugin to your vendor/plugins directory, add the following to your environments.rb file:
+
+    GoogleCustomSearch::Search.google_search_api_key = "Your Google API Key"
+
+From there, you can run a search like so:
+
+  @results = GoogleCustomSearch::Search.new.with_page_index(1).for url_encode("query")
+
+Result items can be accessed through the items parameter (i.e. result.items). An example implementation for a view:
+
+  <% @results.items.each do |result_item| %>
+    <div class="result">
+      <div class="title">
+        <h4>
+          <%= link_to sanitize(result_item.title), result_item.url %>
+        </h4>
+      </div>
+      <div class="description">
+        <%= sanitize(result_item.content) %>
+      </div>
+      <div class="url">
+        <%= result_item.url %>
+      </div>
+    </div>
+  <% end %>
+
+And, finally, a sample implementation to create next and previous page links:
+
+  <div class="pagination-links">
+    <% if @result.items.count > 0 %>
+      <% unless @result.first_page? %>
+        <%= render :partial => "page", :locals => {:page_number => @result.previous_page_number, :label => "&lt; Previous"} %>
+      <% end %>
+      <% unless @result.last_page? %>
+        <%= render :partial => "page", :locals => {:page_number => @result.next_page_number, :label => "Next &gt;"} %>
+      <% end %>
+    <% end %>
+  </div>
 
 
-Example
-=======
-
-Example goes here.
-
-
+Modifications (c) 2011 The Pittsburgh Cultural Trust, released under the MIT license
 Copyright (c) 2010 Anand Agarwal / Anay Kamat, released under the MIT license

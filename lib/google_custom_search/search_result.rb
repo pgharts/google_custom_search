@@ -21,6 +21,10 @@ module GoogleCustomSearch
       (@result/"r").collect { |result| SearchResultItem.new result }
     end
 
+    def range
+      start_index..end_index
+    end
+
     def first_page?
       start_index == 1
     end

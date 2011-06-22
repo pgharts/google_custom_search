@@ -19,7 +19,6 @@ module GoogleCustomSearch
 
     def for keyword
       uri = build_query_url(keyword)
-      puts uri
       search_data = uri.read
       xml_data = Hpricot(search_data)
       GoogleCustomSearch::SearchResult.new xml_data
@@ -33,7 +32,7 @@ module GoogleCustomSearch
     private
     def build_query_url(keyword)
       @query_parameters[:start] = @query_parameters[:num] * @page_index
-      google_search_url = "http://www.google.com/cse?&client=google-csbe&output=xml_no_dtd"
+      google_search_url = "http://www.google.com/cse?client=google-csbe&output=xml_no_dtd"
       arguments = @query_parameters.collect { |key, value| "#{key}=#{value}" }
       arguments.sort!
       URI.parse("#{google_search_url}&cx=#{self.class.google_search_api_key}&q=#{keyword}&"+arguments.join("&"))
