@@ -1,3 +1,4 @@
+require 'hpricot'
 module GoogleCustomSearch
   class SearchResult
     def initialize result
@@ -5,42 +6,36 @@ module GoogleCustomSearch
     end
 
     def estimated_count
-      result_data["cursor"]["estimatedResultCount"].to_i
+      (@result/"res"/"m").innerHTML.to_i
     end
 
-    def current_page_index
-      result_data["cursor"]["currentPageIndex"].to_i
+    def start_index
+      @result.at('res').attributes['sn'].to_i
+    end
+
+    def end_index
+      @result.at('res').attributes['en'].to_i
     end
 
     def items
-      result_data["results"].collect { |result| SearchResultItem.new result }
-    end
-    
-    def pages
-      pages = result_data["cursor"]["pages"] || []
-      pages.collect { |page| SearchPage.new page}
+      (@result/"r").collect { |result| SearchResultItem.new result }
     end
 
-    def range
-      starting_value = result_data["cursor"]["pages"][current_page_index]["start"].to_i + 1
-      ending_value = starting_value + items.count - 1
-      starting_value..ending_value
+    def first_page?
+      start_index == 1
     end
 
-    def errors
-      if @result['responseStatus'] == 400
-        return [@result['responseDetails']]
-      end
-      []
+    def previous_page_number
+      (start_index - 1) / 10 unless first_page?
     end
 
-    def has_errors?
-      errors.count != 0
+    def last_page?
+      end_index >= estimated_count
     end
 
-    private
-    def result_data
-      @result["responseData"]
+    def next_page_number
+      (end_index / 10) + 1 unless last_page?
     end
+
   end
 end

@@ -1,18 +1,15 @@
+require 'hpricot'
+require 'cgi'
 module GoogleCustomSearch
 
   class SearchResultItem
 
-    attr_reader :title, :content
+    attr_reader :title, :content, :url
 
-    def initialize(hash = {})
-      @errors = []
-      hash.each do |key, value|
-        self.instance_variable_set("@#{key}", value)
-      end
-    end
-
-    def url
-      @unescapedUrl
+    def initialize(search_item)
+      @title = CGI.unescapeHTML((search_item/"t").innerHTML)
+      @content = CGI.unescapeHTML((search_item/"s").innerHTML)
+      @url = (search_item/"u").innerHTML
     end
   end
 end
