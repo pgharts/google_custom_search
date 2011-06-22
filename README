@@ -4,10 +4,10 @@ GoogleCustomSearch
 Rewritten version of the GoogleCustomSearch plugin, replacing the now deprecated AJAX API with
  the Google Site Search XML API.
 
- How to Use
+How to Use
 ==========
 
-After adding the Google Custom Search plugin to your vendor/plugins directory, add the following to your environments.rb file:
+After adding the Google Custom Search plugin to your vendor/plugins directory, add the following to your environment.rb file:
 
     GoogleCustomSearch::Search.google_search_api_key = "Your Google API Key"
 
