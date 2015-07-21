@@ -1,2 +1,2 @@
 gemspec: trusty-google-custom-search.gemspec
-deploy_command: git push
+deploy_command: gem push
