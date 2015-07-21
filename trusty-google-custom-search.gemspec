@@ -4,7 +4,7 @@ require "google_custom_search"
 
 Gem::Specification.new do |s|
   s.name        = "trusty_google_custom_search"
-  s.version     = '1.0.1'
+  s.version     = '1.0.2'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Eric Sipple"]
   s.email       = ["sipple@trustarts.org"]

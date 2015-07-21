@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rake (10.4.2)
+    trustygems (0.1.0)
+      rake
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  trustygems (~> 0.1.0)
